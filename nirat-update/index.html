@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>นิราศวัดเจ้าฟ้า — Interactive Scrollytelling</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,600;1,400&family=Noto+Serif+Thai:wght@300;400;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="./css/style.css" />
+  <script type="importmap">
+    {
+      "imports": {
+        "three": "https://unpkg.com/three@0.160.0/build/three.module.js"
+      }
+    }
+  </script>
+</head>
+<body>
+  <div class="paper-grain-overlay"></div>
+
+  <div class="outer-backdrop" aria-hidden="true">
+    <div class="side-decor side-left">
+      <div class="vertical-poem">นิราศวัดเจ้าฟ้า</div>
+      <div class="vertical-sub">สุนทรภู่</div>
+    </div>
+    <div class="side-decor side-right">
+      <div class="vertical-poem">ล่องลำน้ำเจ้าพระยา</div>
+      <div class="vertical-sub">พ.ศ. ๒๓๘๑</div>
+    </div>
+  </div>
+
+  <div class="stage-frame-shell" aria-hidden="true">
+    <div class="stage-frame-inner">
+      <canvas id="webgl-canvas"></canvas>
+      <div class="corner-ornament tl"></div>
+      <div class="corner-ornament tr"></div>
+      <div class="corner-ornament bl"></div>
+      <div class="corner-ornament br"></div>
+    </div>
+  </div>
+
+  <header class="hud-top">
+    <div class="brand">
+      <span class="badge">นิราศสุนทรภู่</span>
+      <h1>นิราศวัดเจ้าฟ้า</h1>
+    </div>
+    <div class="progress-wrapper">
+      <div class="chapter-dots" id="chapter-dots" title="คลิกเพื่อข้ามไปยังบทที่ต้องการ"></div>
+      <span class="progress-text" id="progress-text">บทนำ</span>
+    </div>
+  </header>
+
+  <main id="scroll-container">
+    <section class="intro-hero" data-chapter="0">
+      <div class="hero-card">
+        <p class="subtitle">การเดินทางทางชลมารค พุทธศักราช ๒๓๘๑</p>
+        <h2>นิราศวัดเจ้าฟ้า</h2>
+        <p class="desc">
+          ล่องเรือตามรอยสุนทรภู่และเณรหนูพัด ผู้เล่าเรื่อง ออกจากวัดพระเชตุพนฯ<br>
+          มุ่งสู่กรุงเก่าเพื่อตามหาลายแทงยาอายุวัฒนะและพระปรอท
+        </p>
+        <div class="scroll-hint">
+          <span>เลื่อนลงเพื่อเริ่มล่องเรือ แตะฉากหลังได้ทุกจุด</span>
+          <div class="line"></div>
+        </div>
+      </div>
+    </section>
+
+    <div id="chapters-mount"></div>
+
+    <section class="outro-section">
+      <div class="hero-card">
+        <p class="subtitle">จบบริบูรณ์ — นิราศวัดเจ้าฟ้า</p>
+        <h2>ลายแทงสูญ เหลือไว้แต่บทกลอน</h2>
+        <p class="desc">
+          ยาอายุวัฒนะไม่พบ แต่การเดินทางครั้งนี้ทิ้งนิราศไว้ให้อ่านมาจนวันนี้<br>
+          เลื่อนขึ้นเพื่อทบทวนบทกลอนหรือเล่นมินิเกมซ้ำได้ทุกบท
+        </p>
+        <button class="btn-primary" onclick="window.scrollTo({top: 0, behavior: 'smooth'})">
+          ล่องเรือกลับสู่จุดเริ่มต้น ↺
+        </button>
+      </div>
+    </section>
+  </main>
+
+  <div id="minigame-modal" class="minigame-modal hidden" aria-hidden="true">
+    <div class="minigame-card">
+      <div class="mg-header">
+        <div>
+          <span class="mg-tag" id="mg-chapter-tag">มินิเกมประจำบทที่ ๑</span>
+          <h3 id="mg-title">ชื่อมินิเกม</h3>
+        </div>
+        <button id="btn-skip-game" class="btn-ghost" title="ข้ามไปยังบทถัดไป">
+          ข้ามเกม ➔
+        </button>
+      </div>
+      <p id="mg-instruction" class="mg-instruction">คำอธิบายวิธีเล่น</p>
+
+      <div id="mg-stage" class="mg-stage"></div>
+
+      <div class="mg-footer">
+        <div class="mg-progress-bar">
+          <div id="mg-progress-fill" class="mg-progress-fill"></div>
+        </div>
+        <span id="mg-status-text">ความคืบหน้า: 0%</span>
+      </div>
+    </div>
+  </div>
+
+  <script type="module" src="./js/main.js"></script>
+  <script type="module" src="./js/effects.js"></script>
+</body>
+</html>
